@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="AppCodes\Algorithm\HorseHeuristic.cs" />
     <Compile Include="AppCodes\Algorithm\IPathFindingAlgorithm.cs" />
+    <Compile Include="AppCodes\ChessBoard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AppCodes\ChessSquare.cs">
       <SubType>Component</SubType>
     </Compile>

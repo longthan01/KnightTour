@@ -12,11 +12,9 @@ namespace DuongDiConNgua.AppCodes.Algorithm
         private int[] PossibleStepX = new int[8] { -1, 1, 2, 2, 1, -1, -2, -2 };
         private int[] PossibleStepY = new int[8] { -2, -2, -1, 1, 2, 2, 1, -1 };
         private int ChessBoardSize { get; set; }
-        public bool[,] PathTrace { get; set; }
-        public HorseHeuristic(int chessBoardSize, bool[,] pathTrace)
+        public HorseHeuristic(int chessBoardSize)
         {
             this.ChessBoardSize = chessBoardSize;
-            PathTrace = pathTrace;
         }
         public Point GetBestPace(Point current)
         {
@@ -29,7 +27,7 @@ namespace DuongDiConNgua.AppCodes.Algorithm
                 Point nextPos = new Point();
                 nextPos.X = PossibleStepX[i] + current.X;
                 nextPos.Y = PossibleStepY[i] + current.Y;
-                if(Utils.IsInBoard(nextPos, ChessBoardSize) && !Utils.IsPassedThrough(nextPos, PathTrace))
+                if(IsInBoard(nextPos) && !Utils.IsPassedThrough(nextPos))
                 {
                     int posNextMove = GetHeuristic(nextPos);
                     if (posNextMove < min)
@@ -50,12 +48,16 @@ namespace DuongDiConNgua.AppCodes.Algorithm
                 Point nextPos = new Point();
                 nextPos.X = PossibleStepX[i] + p.X;
                 nextPos.Y = PossibleStepY[i] + p.Y;
-                if (Utils.IsInBoard(nextPos, ChessBoardSize) && !Utils.IsPassedThrough(nextPos, PathTrace))
+                if (IsInBoard(nextPos) && !Utils.IsPassedThrough(nextPos))
                 {
                     count++;
                 }
             }
             return count;
+        }
+        public bool IsInBoard(Point point)
+        {
+            return point.X >= 0 && point.X < ChessBoardSize && point.Y >= 0 && point.Y < ChessBoardSize;
         }
     }
 }

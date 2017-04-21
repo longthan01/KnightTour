@@ -7,3 +7,12 @@ F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csproj.Generat
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.exe
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.pdb
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csprojResolveAssemblyReference.cache
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.exe.config
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.exe
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.pdb
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csprojResolveAssemblyReference.cache
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.Form1.resources
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.Properties.Resources.resources
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csproj.GenerateResource.Cache
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.exe
+D:\Codes\TimDuongDiChoConQuyNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.pdb

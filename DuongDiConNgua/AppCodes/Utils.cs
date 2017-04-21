@@ -9,13 +9,27 @@ namespace DuongDiConNgua.AppCodes
 {
     public class Utils
     {
-        public static bool IsInBoard(Point point, int chessBoardSize)
+        public static int ChessBoardSize { get; set; }
+        public static bool[,] PathTrace { get; set; }
+        public static bool IsPassedThrough(Point point)
         {
-            return point.X >= 0 && point.X < chessBoardSize && point.Y >= 0 && point.Y < chessBoardSize;
+            return PathTrace[point.X, point.Y];
         }
-        public static bool IsPassedThrough(Point point, bool[,] pathTrace)
+        public static void CreatePathTrace(int chessBoardSize)
         {
-            return pathTrace[point.X, point.Y];
+            ChessBoardSize = chessBoardSize;
+            PathTrace = new bool[ChessBoardSize, ChessBoardSize];
+            for (int i = 0; i < ChessBoardSize; i++)
+            {
+                for (int j = 0; j < ChessBoardSize; j++)
+                {
+                    PathTrace[i, j] = false;
+                }
+            }
+        }
+        public static bool IsValidPoint(Point p)
+        {
+            return p.X != -1 && p.Y != -1;
         }
     }
 }
