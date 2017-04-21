@@ -54,7 +54,6 @@ namespace DuongDiConNgua.AppCodes
         }
         public void Knight()
         {
-            Utils.CreatePathTrace(this.ChessBoardSize);
             Utils.PathTrace[0, 0] = true; // start
             Point p = new Point(0, 0);
             int step = 1;
@@ -73,6 +72,7 @@ namespace DuongDiConNgua.AppCodes
                     break;
                 }
             }
+            MessageBox.Show("Xong cmnr");
         }
     }
 }

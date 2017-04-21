@@ -15,15 +15,7 @@ namespace DuongDiConNgua.AppCodes
         public int SquareSize { get; set; }
         public Image Img
         {
-            get
-            {
-                return this.Image;
-            }
-            set
-            {
-                this.SizeMode = PictureBoxSizeMode.StretchImage;
-                this.Image = value;
-            }
+            get;set;
         }
         public Label ChessSquareText
         {
@@ -31,16 +23,16 @@ namespace DuongDiConNgua.AppCodes
             set;
         }
         public const int ChessSquareMargin = 1;
-
+        public bool IsBlocked { get; set; }
         public ChessSquare(int size, Image img)
         {
             this.SquareSize = size;
             this.Img = img;
+            this.Image = this.Img;
+            this.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Width = size;
             this.Height = size;
             this.Margin = new Padding(ChessSquareMargin, ChessSquareMargin, ChessSquareMargin, ChessSquareMargin);
-            this.MouseEnter += ChessSquare_MouseEnter;
-            this.MouseLeave += ChessSquare_MouseLeave;
             // Label
             ChessSquareText = new Label();
             ChessSquareText.Size = new Size(this.SquareSize / 2, this.SquareSize / 2);
@@ -50,14 +42,26 @@ namespace DuongDiConNgua.AppCodes
             ChessSquareText.ForeColor = Color.Black;
             Controls.Add(ChessSquareText);
             ChessSquareText.Text = "";
+
+            this.MouseClick += ChessSquare_MouseClick;
         }
-        private void ChessSquare_MouseLeave(object sender, EventArgs e)
+
+        private void ChessSquare_MouseClick(object sender, MouseEventArgs e)
         {
-            this.Image = Img;
-        }
-        private void ChessSquare_MouseEnter(object sender, EventArgs e)
-        {
-            this.Img = Resources.RedHorse;
+            if (Control.ModifierKeys == Keys.Control && e.Button == MouseButtons.Left)
+            {
+                if (!IsBlocked)
+                {
+                    this.Image = Resources.Blocked;
+                    IsBlocked = true;
+                }
+                else
+                {
+                    this.Image = Img;
+                    IsBlocked = false;
+                }
+            }
+            Utils.PathTrace[this.ChessPoint.X, this.ChessPoint.Y] = IsBlocked;
         }
     }
 }

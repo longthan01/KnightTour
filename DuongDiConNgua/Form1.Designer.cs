@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnRun = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnRun
@@ -40,12 +41,22 @@
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(12, 56);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 38);
+            this.btnReset.TabIndex = 1;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1203, 606);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnRun);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -57,6 +68,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnRun;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 
