@@ -101,6 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\blocked.png" />
+    <None Include="Resources\horse_running_left.gif" />
+    <None Include="Resources\horse_running_right.gif" />
     <Content Include="XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup />

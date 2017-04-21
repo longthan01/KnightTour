@@ -15,7 +15,7 @@ namespace DuongDiConNgua.AppCodes
         public int SquareSize { get; set; }
         public Image Img
         {
-            get;set;
+            get; set;
         }
         public Label ChessSquareText
         {
@@ -42,10 +42,13 @@ namespace DuongDiConNgua.AppCodes
             ChessSquareText.ForeColor = Color.Black;
             Controls.Add(ChessSquareText);
             ChessSquareText.Text = "";
-
             this.MouseClick += ChessSquare_MouseClick;
         }
 
+        public void ChangeImage(Image img)
+        {
+            this.Image = img;
+        }
         private void ChessSquare_MouseClick(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys == Keys.Control && e.Button == MouseButtons.Left)
