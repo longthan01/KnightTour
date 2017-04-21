@@ -23,19 +23,14 @@ namespace DuongDiConNgua
         private void CreateLayout()
         {
             chessBoardPanel = new FlowLayoutPanel();
-            chessBoardPanel.Size = new Size(this.Size.Height - 50, this.Size.Height - 50);
+            chessBoardPanel.Size = new Size(700,700);
             chessBoardPanel.AutoSize = false;
-            chessBoardPanel.Location = new Point(this.Width - chessBoardPanel.Width - 50, 0);
+            chessBoardPanel.Location = new Point(this.Width - chessBoardPanel.Size.Width - MarginRight, 0);
             this.Controls.Add(chessBoardPanel);
-        }
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            CreateLayout();
             Image first = Properties.Resources.Red;
             Image second = Properties.Resources.White;
-            int s= this.chessBoardPanel.Width;
-            int size = (s - 50) / ChessBoardSize;
+            int s = this.chessBoardPanel.Width;
+            int size = (s - (3 * ChessBoardSize)) / ChessBoardSize;
             for (int i = 0; i < ChessBoardSize; i++)
             {
                 for (int j = 0; j < ChessBoardSize; j++)
@@ -47,6 +42,11 @@ namespace DuongDiConNgua
                 Application.DoEvents();
             }
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            CreateLayout();
+        }
         void SwapImg(ref Image a, ref Image b)
         {
             Image t = a;
@@ -54,5 +54,6 @@ namespace DuongDiConNgua
             b = t;
         }
         private FlowLayoutPanel chessBoardPanel;
+        private int MarginRight = 10;
     }
 }

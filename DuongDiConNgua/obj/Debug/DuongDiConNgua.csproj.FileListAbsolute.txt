@@ -1,9 +1,9 @@
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.exe.config
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.exe
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\bin\Debug\DuongDiConNgua.pdb
-F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csprojResolveAssemblyReference.cache
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.Form1.resources
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.Properties.Resources.resources
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csproj.GenerateResource.Cache
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.exe
 F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.pdb
+F:\Code\C#\DuongDiConNgua\DuongDiConNgua\obj\Debug\DuongDiConNgua.csprojResolveAssemblyReference.cache

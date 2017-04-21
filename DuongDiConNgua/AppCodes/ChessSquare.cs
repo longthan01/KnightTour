@@ -19,6 +19,7 @@ namespace DuongDiConNgua.AppCodes
             this.Width = size;
             this.Height = size;
             this.Image = img;
+            this.BackColor = Color.Red;
             this.Margin = new Padding(1,1,1,1);
             this.MouseEnter += ChessSquare_MouseEnter;
             this.MouseLeave += ChessSquare_MouseLeave;
