@@ -27,14 +27,8 @@ namespace DuongDiConNgua
         {
             base.OnLoad(e);
             #region draw chessboard
-            _chessBoardSize = 8;
-            Utils.CreatePathTrace(_chessBoardSize);
-            _chessBoard = new ChessBoard(_chessBoardSize);
-            int marginRight = 50;
-            _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
-            this.Controls.Add(_chessBoard);
+            DrawChessBoard();
             #endregion
-
             HorseRunningAnimation = new PictureBox();
             HorseRunningAnimation.Size = new Size(_chessBoard.ChessSquareSize, _chessBoard.ChessSquareSize);
             HorseRunningAnimation.BackColor = Color.Transparent;
@@ -43,23 +37,31 @@ namespace DuongDiConNgua
             this.Controls.Add(HorseRunningAnimation);
             _chessBoard.HorseMove += (obj, ev) =>
             {
-                SmoothMove(ev.From, ev.To, ev.Image);
+               // SmoothMove(ev.From, ev.To, ev.Image);
             };
             this.btnReset.Click += (obj, ev) =>
             {
-                Utils.CreatePathTrace(_chessBoardSize);
-                for (int i = 0; i < _chessBoardSize; i++)
-                {
-                    for (int j = 0; j < _chessBoardSize; j++)
-                    {
-                        _chessBoard.ChessSquares[i, j].ChessSquareText.ResetText();
-                    }
-                }
+                DrawChessBoard();
             };
             this.btnRun.Click += (obj, ev) =>
             {
+                if (Utils.StartCell == null)
+                {
+                    MessageBox.Show("Chọn 1 điểm bắt đầu !");
+                    return;
+                }
                 _chessBoard.Knight();
             };
+        }
+        private void DrawChessBoard()
+        {
+            Utils.Initialize(_chessBoardSize);
+            this.Controls.Remove(_chessBoard);
+            _chessBoardSize = 8;
+            _chessBoard = new ChessBoard(_chessBoardSize);
+            int marginRight = 50;
+            _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
+            this.Controls.Add(_chessBoard);
         }
         private void SmoothMove(Point from, Point to, Image img)
         {

@@ -49,22 +49,55 @@ namespace DuongDiConNgua.AppCodes
         {
             this.Image = img;
         }
+        private void SetBlockOrUnBlockSquare()
+        {
+            if (!IsBlocked)
+            {
+                this.Image = Resources.Blocked;
+                IsBlocked = true;
+            }
+            else
+            {
+                this.Image = Img;
+                IsBlocked = false;
+            }
+            Utils.PathTrace[this.ChessPoint.X, this.ChessPoint.Y] = IsBlocked;
+            if (Utils.StartCell == this)
+            {
+                Utils.StartCell = null;
+            }
+        }
         private void ChessSquare_MouseClick(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys == Keys.Control && e.Button == MouseButtons.Left)
             {
-                if (!IsBlocked)
+                SetBlockOrUnBlockSquare();
+                return;
+            }
+            IsBlocked = false;
+            ChessSquare startCell = null;
+            Image img = null;
+            bool pathTrace = false;
+            if (Utils.StartCell != null)
+            {
+                if (Utils.StartCell != this)
                 {
-                    this.Image = Resources.Blocked;
-                    IsBlocked = true;
+                    return;
                 }
                 else
                 {
-                    this.Image = Img;
-                    IsBlocked = false;
+                    img = this.Img;
                 }
             }
-            Utils.PathTrace[this.ChessPoint.X, this.ChessPoint.Y] = IsBlocked;
+            else
+            {
+                startCell = this;
+                img = Resources.HorseStart;
+                pathTrace = true;
+            }
+            Utils.StartCell = startCell;
+            this.ChangeImage(img);
+            Utils.PathTrace[this.ChessPoint.X, this.ChessPoint.Y] = pathTrace;
         }
     }
 }

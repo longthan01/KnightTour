@@ -21,7 +21,8 @@ namespace DuongDiConNgua.AppCodes
         private Queue<ChessSquare> Path = new Queue<ChessSquare>();
         private ChessSquare PreviousSquare = null;
         private int CurrentStep = 1;
-       
+        private int DrawInterval = 50;
+
         public int ChessSquareSize { get; set; }
         #region event declaration
         public event ImageMovingEventHandler HorseMove;
@@ -58,10 +59,8 @@ namespace DuongDiConNgua.AppCodes
             }
             #endregion
             DrawTimer = new Timer();
-            DrawTimer.Interval = 5000;
-            DrawTimer.Enabled = true;
+            DrawTimer.Interval = DrawInterval;
             DrawTimer.Tick += DrawTimer_Tick;
-            DrawTimer.Start();
         }
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
@@ -94,6 +93,12 @@ namespace DuongDiConNgua.AppCodes
                 }
                 PreviousSquare = p;
             }
+            else
+            {
+                DrawTimer.Enabled = false;
+                MessageBox.Show("Kết cmn thúc!", "Done");
+                DrawTimer.Stop();
+            }
         }
         private void SwapImg(ref Image a, ref Image b)
         {
@@ -103,9 +108,7 @@ namespace DuongDiConNgua.AppCodes
         }
         public void Knight()
         {
-            Utils.PathTrace[0, 0] = true; // start
-            Point p = new Point(0, 0);
-            Path.Enqueue(ChessSquares[0, 0]);
+            Point p = new Point(Utils.StartCell.ChessPoint.X, Utils.StartCell.ChessPoint.Y);
             while (true)
             {
                 // find next pace
@@ -118,6 +121,7 @@ namespace DuongDiConNgua.AppCodes
                 }
                 else
                 {
+                    DrawTimer.Start();
                     break;
                 }
             }
