@@ -21,6 +21,11 @@ namespace DuongDiConNgua.AppCodes
         private Queue<ChessSquare> Path = new Queue<ChessSquare>();
         private ChessSquare PreviousSquare = null;
         private int CurrentStep = 1;
+       
+        public int ChessSquareSize { get; set; }
+        #region event declaration
+        public event ImageMovingEventHandler HorseMove;
+        #endregion
         public ChessBoard(int chessBoardSize)
         {
             this.Algorithm = new HorseHeuristic(chessBoardSize);
@@ -35,12 +40,13 @@ namespace DuongDiConNgua.AppCodes
             Image first = Resources.Red;
             Image second = Resources.White;
             int s = Width;
-            int size = (s - ((ChessBoardSize - 1) * ChessSquare.ChessSquareMargin * 2)) / ChessBoardSize;
+            ChessSquareSize = (s - ((ChessBoardSize - 1) * ChessSquare.ChessSquareMargin * 2)) / ChessBoardSize;
+
             for (int i = 0; i < ChessBoardSize; i++)
             {
                 for (int j = 0; j < ChessBoardSize; j++)
                 {
-                    var chessSquare = new ChessSquare(size, first)
+                    var chessSquare = new ChessSquare(ChessSquareSize, first)
                     {
                         ChessPoint = new Point(i, j)
                     };
@@ -52,12 +58,11 @@ namespace DuongDiConNgua.AppCodes
             }
             #endregion
             DrawTimer = new Timer();
-            DrawTimer.Interval = 800;
+            DrawTimer.Interval = 5000;
             DrawTimer.Enabled = true;
             DrawTimer.Tick += DrawTimer_Tick;
             DrawTimer.Start();
         }
-
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
             if (this.Path.Any())
@@ -76,13 +81,20 @@ namespace DuongDiConNgua.AppCodes
                     }
                     PreviousSquare.ChangeImage(PreviousSquare.Img);
                 }
-                p.ChangeImage(img);
                 p.ChessSquareText.Text = (CurrentStep++).ToString();
-                Application.DoEvents();
+                if (PreviousSquare != null)
+                {
+                    if (HorseMove != null)
+                    {
+                        HorseMove(this, new ImageMovingEventArg() {
+                            From = PreviousSquare.PointToScreen(PreviousSquare.Location),
+                            To = p.PointToScreen(p.Location),
+                            Image = img });
+                    }
+                }
                 PreviousSquare = p;
             }
         }
-
         private void SwapImg(ref Image a, ref Image b)
         {
             Image t = a;
@@ -110,23 +122,10 @@ namespace DuongDiConNgua.AppCodes
                 }
             }
         }
-
-        private void SmoothMove(Point from, Point to, Image img)
+        private bool IsDestination(Point dest, int x, int y)
         {
-            PictureBox pb = new PictureBox();
-            pb.Image = img;
-            pb.Location = from;
-            Point normalVector = new Point();
-            normalVector.X = -(to.Y - from.Y);
-            normalVector.Y = to.X - from.X;
-            // a (x - x0) + b (y - y0) = 0
-            // => ax - x0a + by - y0b = 0 => ax + by = x0a + y0b => x = ((x0a + y0b) - by) / a
-            // => x = (x0a + y0b) / a - b/a y
-            // a = normalVector.X
-            // b = normalVector.Y
-            // x0 = to.X
-            // y0 = to.Y
-            
+            return dest.X - 4 <= x && dest.X + 4 >= x &&
+                   dest.Y - 4 <= y && dest.Y + 4 >= y;
         }
     }
 }
