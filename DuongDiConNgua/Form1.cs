@@ -37,7 +37,7 @@ namespace DuongDiConNgua
             this.Controls.Add(HorseRunningAnimation);
             _chessBoard.HorseMove += (obj, ev) =>
             {
-               // SmoothMove(ev.From, ev.To, ev.Image);
+                SmoothMove(ev.From, ev.To, ev.Image);
             };
             this.btnReset.Click += (obj, ev) =>
             {
@@ -55,9 +55,9 @@ namespace DuongDiConNgua
         }
         private void DrawChessBoard()
         {
+            _chessBoardSize = 8;
             Utils.Initialize(_chessBoardSize);
             this.Controls.Remove(_chessBoard);
-            _chessBoardSize = 8;
             _chessBoard = new ChessBoard(_chessBoardSize);
             int marginRight = 50;
             _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
@@ -67,15 +67,13 @@ namespace DuongDiConNgua
         {
             int a = -(to.Y - from.Y);
             int b = to.X - from.X;
+            int gcd = (a == 0 || b == 0) ? 1 : Utils.GCD(a, b);
+            a /= gcd;
+            b /= gcd;
             HorseRunningAnimation.Visible = true;
             HorseRunningAnimation.BringToFront();
             HorseRunningAnimation.Image = img;
             HorseRunningAnimation.Location = from;
-            // a (x - x0) + b (y - y0) = 0
-            // => ax - x0a + by - y0b = 0 => ax + by = x0a + y0b => x = ((x0a + y0b) - by) / a
-            // => x = (x0a + y0b) / a - b/a y
-            // x0 = to.X
-            // y0 = to.Y
 
             Point p = new Point(from.X, from.Y);
             int x = 0;
@@ -94,9 +92,13 @@ namespace DuongDiConNgua
                 }
                 try
                 {
-                    float t1 = ((to.X * a) + (to.Y * b)) / (float)a;
-                    float t2 = t1 - x;
-                    y = (int)Math.Round((t2 / ((float)b / a)));
+                    int toGcd = Utils.GCD(to.X, to.Y);
+                    int tox = 1;
+                    int toy = (int)Math.Round((float)to.X / to.Y);
+                    float t1 = (tox * a) / (float)b;
+                    float t2 = toy - ((x * a) / (float)b);
+                    float t3 = t1 + t2;
+                    y = (int)Math.Round(t3);
                 }
                 catch (Exception ex)
                 {
@@ -104,6 +106,10 @@ namespace DuongDiConNgua
 
                 p.X = p.X + x;
                 p.Y = p.Y + y;
+                if (IsDestination(to, p.X, p.Y))
+                {
+                    break;
+                }
                 HorseRunningAnimation.Location = p;
                 System.Diagnostics.Debug.WriteLine($"Horse at : x: {p.X} y: {p.Y}");
                 System.Threading.Thread.Sleep(100);
@@ -111,5 +117,17 @@ namespace DuongDiConNgua
             }
             HorseRunningAnimation.Visible = false;
         }
+        private bool IsDestination(Point dest, int x, int y)
+        {
+            return dest.X - 4 <= x && dest.X + 4 >= x &&
+                   dest.Y - 4 <= y && dest.Y + 4 >= y;
+        }
+        //private void SmoothMove(Point from, Point to, Image img)
+        //{
+        //    Graphics g = this.CreateGraphics();
+        //    Pen pen = new Pen(Brushes.LightGreen);
+        //    pen.Width = 2;
+        //    g.DrawLine(pen, from, to);
+        //}
     }
 }

@@ -39,7 +39,7 @@ namespace DuongDiConNgua.AppCodes
             ChessSquareText.Location = new Point(0, (this.SquareSize * 3) / 4);
             ChessSquareText.Font = new Font("Arial", 14, FontStyle.Bold);
             ChessSquareText.BackColor = Color.Transparent;
-            ChessSquareText.ForeColor = Color.Black;
+            ChessSquareText.ForeColor = Color.Red;
             Controls.Add(ChessSquareText);
             ChessSquareText.Text = "";
             this.MouseClick += ChessSquare_MouseClick;

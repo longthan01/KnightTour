@@ -12,16 +12,17 @@ namespace DuongDiConNgua.AppCodes
 {
     public class ChessBoard : FlowLayoutPanel
     {
-        private int ChessBoardSize { get; set; }
-        private int MarginRight = 10;
-        public int DefaultChessBoardSize = 700;
+        public int ChessBoardSize { get; set; }
         public IPathFindingAlgorithm Algorithm { get; set; }
         public ChessSquare[,] ChessSquares { get; set; }
-        public Timer DrawTimer;
+        public int DefaultChessBoardSize = 700;
+
+        private int MarginRight = 10;
+        private Timer DrawTimer;
         private Queue<ChessSquare> Path = new Queue<ChessSquare>();
         private ChessSquare PreviousSquare = null;
         private int CurrentStep = 1;
-        private int DrawInterval = 50;
+        private int DrawInterval = 1000;
 
         public int ChessSquareSize { get; set; }
         #region event declaration
@@ -62,6 +63,8 @@ namespace DuongDiConNgua.AppCodes
             DrawTimer.Interval = DrawInterval;
             DrawTimer.Tick += DrawTimer_Tick;
         }
+
+        #region events
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
             if (this.Path.Any())
@@ -79,18 +82,29 @@ namespace DuongDiConNgua.AppCodes
                         img = Resources.HorseRunningLeft;
                     }
                     PreviousSquare.ChangeImage(PreviousSquare.Img);
+                    //if (HorseMove != null)
+                    //{
+                    //    HorseMove(this, new ImageMovingEventArg()
+                    //    {
+                    //        From = PreviousSquare.PointToScreen(PreviousSquare.Location),
+                    //        To = p.PointToScreen(p.Location),
+                    //        Image = img
+                    //    });
+                    //}
                 }
-                p.ChessSquareText.Text = (CurrentStep++).ToString();
-                if (PreviousSquare != null)
+                else
                 {
-                    if (HorseMove != null)
+                    if (Utils.StartCell.ChessPoint.Y > Utils.StartCell.ChessPoint.Y)
                     {
-                        HorseMove(this, new ImageMovingEventArg() {
-                            From = PreviousSquare.PointToScreen(PreviousSquare.Location),
-                            To = p.PointToScreen(p.Location),
-                            Image = img });
+                        img = Resources.HorseRunningRight;
+                    }
+                    else
+                    {
+                        img = Resources.HorseRunningLeft;
                     }
                 }
+                p.ChangeImage(img);
+                p.ChessSquareText.Text = (CurrentStep++).ToString();
                 PreviousSquare = p;
             }
             else
@@ -99,7 +113,9 @@ namespace DuongDiConNgua.AppCodes
                 MessageBox.Show("Kết cmn thúc!", "Done");
                 DrawTimer.Stop();
             }
-        }
+        } 
+        #endregion
+
         private void SwapImg(ref Image a, ref Image b)
         {
             Image t = a;
@@ -126,10 +142,6 @@ namespace DuongDiConNgua.AppCodes
                 }
             }
         }
-        private bool IsDestination(Point dest, int x, int y)
-        {
-            return dest.X - 4 <= x && dest.X + 4 >= x &&
-                   dest.Y - 4 <= y && dest.Y + 4 >= y;
-        }
+        
     }
 }
