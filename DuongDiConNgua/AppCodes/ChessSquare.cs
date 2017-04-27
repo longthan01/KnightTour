@@ -35,13 +35,19 @@ namespace DuongDiConNgua.AppCodes
             this.Margin = new Padding(ChessSquareMargin, ChessSquareMargin, ChessSquareMargin, ChessSquareMargin);
             // Label
             ChessSquareText = new Label();
-            ChessSquareText.Size = new Size(this.SquareSize / 2, this.SquareSize / 2);
-            ChessSquareText.Location = new Point(0, (this.SquareSize * 3) / 4);
-            ChessSquareText.Font = new Font("Arial", 14, FontStyle.Bold);
+            ChessSquareText.Size = new Size(this.SquareSize, this.SquareSize / 2);
+            ChessSquareText.TextAlign = ContentAlignment.MiddleCenter;
+            int lblX = 0;
+            int lblY = (SquareSize) / 4;
+            ChessSquareText.Location = new Point(lblX, lblY);
+            int lblFontSize = (SquareSize * 30) / 100;
+            ChessSquareText.Font = new Font("Arial", lblFontSize, FontStyle.Bold);
             ChessSquareText.BackColor = Color.Transparent;
             ChessSquareText.ForeColor = Color.Red;
             Controls.Add(ChessSquareText);
             ChessSquareText.Text = "";
+            ChessSquareText.MouseClick += (obj, ev) => { ChessSquare_MouseClick(obj, ev); };
+            //
             this.MouseClick += ChessSquare_MouseClick;
         }
 

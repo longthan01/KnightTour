@@ -16,6 +16,7 @@ namespace DuongDiConNgua
     {
         private ChessBoard _chessBoard;
         private int _chessBoardSize;
+        private int _drawDelayTime;
         private PictureBox HorseRunningAnimation = null;
 
         public Form1()
@@ -27,21 +28,51 @@ namespace DuongDiConNgua
         {
             base.OnLoad(e);
             #region draw chessboard
-            DrawChessBoard();
+            // DrawChessBoard();
             #endregion
-            HorseRunningAnimation = new PictureBox();
-            HorseRunningAnimation.Size = new Size(_chessBoard.ChessSquareSize, _chessBoard.ChessSquareSize);
-            HorseRunningAnimation.BackColor = Color.Transparent;
-            HorseRunningAnimation.SizeMode = PictureBoxSizeMode.StretchImage;
-            HorseRunningAnimation.BringToFront();
-            this.Controls.Add(HorseRunningAnimation);
-            _chessBoard.HorseMove += (obj, ev) =>
-            {
-                SmoothMove(ev.From, ev.To, ev.Image);
-            };
+            #region smooth moving animation
+            //HorseRunningAnimation = new PictureBox();
+            //HorseRunningAnimation.Size = new Size(_chessBoard.ChessSquareSize, _chessBoard.ChessSquareSize);
+            //HorseRunningAnimation.BackColor = Color.Transparent;
+            //HorseRunningAnimation.SizeMode = PictureBoxSizeMode.StretchImage;
+            //HorseRunningAnimation.BringToFront();
+            //this.Controls.Add(HorseRunningAnimation);
+            #endregion
+            this.comboBox1.SelectedIndex = 4; // 500
+            this.txtChessSquare.Text = 8.ToString();
+            this._chessBoardSize = 8;
+            this._drawDelayTime = 500;
+            DrawChessBoard();
             this.btnReset.Click += (obj, ev) =>
             {
-                DrawChessBoard();
+                if (_chessBoardSize != 0)
+                {
+                    DrawChessBoard();
+                }
+            };
+            this.comboBox1.SelectedIndexChanged += (obj, ev) =>
+            {
+                int s = 0;
+                int.TryParse(comboBox1.SelectedItem.ToString(), out s);
+                this._drawDelayTime = s;
+                if (_chessBoard != null)
+                {
+                    _chessBoard.SetInterval(this._drawDelayTime);
+                }
+            };
+            this.txtChessSquare.TextChanged += (obj, ev) =>
+            {
+                int s = 0;
+                int.TryParse(txtChessSquare.Text, out s);
+                this._chessBoardSize = s;
+                if (s != 0 && s <= 20)
+                {
+                    DrawChessBoard();
+                }
+                else
+                {
+                    MessageBox.Show("Range: 0 - 20");
+                }
             };
             this.btnRun.Click += (obj, ev) =>
             {
@@ -52,13 +83,18 @@ namespace DuongDiConNgua
                 }
                 _chessBoard.Knight();
             };
+            this.button1.Click += (obj, ev) =>
+            {
+                string help = System.IO.File.ReadAllText("help.txt");
+                MessageBox.Show(help, "Intruction");
+            };
         }
         private void DrawChessBoard()
         {
-            _chessBoardSize = 8;
             Utils.Initialize(_chessBoardSize);
             this.Controls.Remove(_chessBoard);
             _chessBoard = new ChessBoard(_chessBoardSize);
+            _chessBoard.SetInterval(_drawDelayTime);
             int marginRight = 50;
             _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
             this.Controls.Add(_chessBoard);

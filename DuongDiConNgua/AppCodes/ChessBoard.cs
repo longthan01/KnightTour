@@ -2,6 +2,7 @@
 using DuongDiConNgua.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,15 @@ namespace DuongDiConNgua.AppCodes
         public IPathFindingAlgorithm Algorithm { get; set; }
         public ChessSquare[,] ChessSquares { get; set; }
         public int DefaultChessBoardSize = 700;
+        public int DrawInterval = 500;
 
         private int MarginRight = 10;
         private Timer DrawTimer;
+        private Timer AlgTimer = new Timer();
+        private bool AlgRunning;
         private Queue<ChessSquare> Path = new Queue<ChessSquare>();
         private ChessSquare PreviousSquare = null;
         private int CurrentStep = 1;
-        private int DrawInterval = 1000;
 
         public int ChessSquareSize { get; set; }
         #region event declaration
@@ -42,7 +45,7 @@ namespace DuongDiConNgua.AppCodes
             Image first = Resources.Red;
             Image second = Resources.White;
             int s = Width;
-            ChessSquareSize = (s - ((ChessBoardSize - 1) * ChessSquare.ChessSquareMargin * 2)) / ChessBoardSize;
+            ChessSquareSize = (s - ((ChessBoardSize) * ChessSquare.ChessSquareMargin * 2)) / ChessBoardSize;
 
             for (int i = 0; i < ChessBoardSize; i++)
             {
@@ -54,9 +57,13 @@ namespace DuongDiConNgua.AppCodes
                     };
                     ChessSquares[i, j] = chessSquare;
                     Controls.Add(chessSquare);
+                    Application.DoEvents();
                     SwapImg(ref first, ref second);
                 }
-                SwapImg(ref first, ref second);
+                if (chessBoardSize % 2 == 0)
+                {
+                    SwapImg(ref first, ref second);
+                }
             }
             #endregion
             DrawTimer = new Timer();
@@ -65,11 +72,24 @@ namespace DuongDiConNgua.AppCodes
         }
 
         #region events
+        private List<Point> t = new List<Point>();
+        private bool contains(Point p)
+        {
+            var p1 = t.Any(x => x.X == p.X && x.Y == p.Y);
+            return p1;
+        }
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
             if (this.Path.Any())
             {
                 ChessSquare p = this.Path.Dequeue();
+                if (contains(p.ChessPoint))
+                {
+                    Debug.WriteLine($"{p.ChessPoint.X},{p.ChessPoint.Y} repeated");
+                }
+                t.Add(p.ChessPoint);
+
+                bool isValid = Utils.IsPassedThrough(p.ChessPoint);
                 Image img = null;
                 if (PreviousSquare != null)
                 {
@@ -104,16 +124,21 @@ namespace DuongDiConNgua.AppCodes
                     }
                 }
                 p.ChangeImage(img);
+                System.Threading.Thread.Sleep(10);
                 p.ChessSquareText.Text = (CurrentStep++).ToString();
                 PreviousSquare = p;
             }
             else
             {
+                Application.DoEvents();
                 DrawTimer.Enabled = false;
-                MessageBox.Show("Kết cmn thúc!", "Done");
+                if (!AlgRunning)
+                {
+                    MessageBox.Show("Kết cmn thúc!", "Done");
+                }
                 DrawTimer.Stop();
             }
-        } 
+        }
         #endregion
 
         private void SwapImg(ref Image a, ref Image b)
@@ -124,24 +149,34 @@ namespace DuongDiConNgua.AppCodes
         }
         public void Knight()
         {
+            DrawTimer.Start();
+            AlgRunning = true;
+            AlgTimer.Interval = this.DrawInterval;
             Point p = new Point(Utils.StartCell.ChessPoint.X, Utils.StartCell.ChessPoint.Y);
-            while (true)
-            {
-                // find next pace
-                p = Algorithm.GetBestPace(p);
-                if (Utils.IsValidPoint(p))
+            AlgTimer.Tick += (obj, ev) =>
                 {
-                    Utils.PathTrace[p.X, p.Y] = true;
-                    var square = this.ChessSquares[p.X, p.Y];
-                    this.Path.Enqueue(square);
-                }
-                else
-                {
-                    DrawTimer.Start();
-                    break;
-                }
-            }
+                    // find next pace
+                    p = Algorithm.GetBestPace(p);
+                    if (Utils.IsValidPoint(p))
+                    {
+                        Utils.PathTrace[p.X, p.Y] = true;
+                        var square = this.ChessSquares[p.X, p.Y];
+                        this.Path.Enqueue(square);
+                    }
+                    else
+                    {
+                        AlgRunning = false;
+                        AlgTimer.Enabled = false;
+                        AlgTimer.Stop();
+                    }
+                };
+            AlgTimer.Start();
         }
-        
+        public void SetInterval(int interval)
+        {
+            Application.DoEvents();
+            this.AlgTimer.Interval = interval;
+            this.DrawTimer.Interval = interval;
+        }
     }
 }

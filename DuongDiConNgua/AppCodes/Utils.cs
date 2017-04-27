@@ -31,7 +31,9 @@ namespace DuongDiConNgua.AppCodes
         }
         public static bool IsValidPoint(Point p)
         {
-            return p.X != -1 && p.Y != -1;
+            bool res = p.X != -1 && p.Y != -1;
+            res = res && Utils.PathTrace[p.X, p.Y] == false;
+            return res;
         }
         public static int GCD(int a, int b)
         {

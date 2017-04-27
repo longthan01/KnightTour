@@ -1,0 +1,3 @@
+- Ctrl + chuột trái: khóa ô
+- Chuột trái: chọn ô bắt đầu, chuột trái lần nữa để bỏ chọn
+- Còn lại nhìn trên màn hình !

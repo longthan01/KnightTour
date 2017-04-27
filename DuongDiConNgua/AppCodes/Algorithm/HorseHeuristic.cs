@@ -20,9 +20,8 @@ namespace DuongDiConNgua.AppCodes.Algorithm
         {
             Point result = new Point(-1, -1);
             int min = 9;
-            int moveCount = 0;
 
-            for (int i = 0; i < ChessBoardSize; i++)
+            for (int i = 0; i < 8; i++)
             {
                 Point nextPos = new Point();
                 nextPos.X = PossibleStepX[i] + current.X;
@@ -34,7 +33,6 @@ namespace DuongDiConNgua.AppCodes.Algorithm
                     {
                         min = posNextMove;
                         result = nextPos;
-                        moveCount++;
                     }
                 }
             }
@@ -43,7 +41,7 @@ namespace DuongDiConNgua.AppCodes.Algorithm
         public int GetHeuristic(Point p)
         {
             int count = 0;
-            for (int i = 0; i < this.ChessBoardSize; i++)
+            for (int i = 0; i < 8; i++)
             {
                 Point nextPos = new Point();
                 nextPos.X = PossibleStepX[i] + p.X;
