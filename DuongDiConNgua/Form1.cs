@@ -18,6 +18,7 @@ namespace DuongDiConNgua
         private int _chessBoardSize;
         private int _drawDelayTime;
         private PictureBox HorseRunningAnimation = null;
+        private Label lblGO;
 
         public Form1()
         {
@@ -89,12 +90,32 @@ namespace DuongDiConNgua
                 MessageBox.Show(help, "Intruction");
             };
         }
+        private void DrawGameOver(string text)
+        {
+            if (lblGO == null)
+            {
+                lblGO = new Label();
+            }
+            lblGO.Font = new Font("Showcard Gothic", 24, FontStyle.Bold);
+            lblGO.Location = new Point(0, this.Height / 3);
+            lblGO.ForeColor = Color.Green;
+            lblGO.Size = new Size(300, this.Height / 4);
+            lblGO.Text = text;
+            this.Controls.Add(lblGO);
+            lblGO.BringToFront();
+            Application.DoEvents();
+        }
         private void DrawChessBoard()
         {
             Utils.Initialize(_chessBoardSize);
             this.Controls.Remove(_chessBoard);
             _chessBoard = new ChessBoard(_chessBoardSize);
             _chessBoard.SetInterval(_drawDelayTime);
+            DrawGameOver("");
+            _chessBoard.DrawingCompleted += (obj, ev) =>
+            {
+                DrawGameOver("Game O Cmn Ver");
+            };
             int marginRight = 50;
             _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
             this.Controls.Add(_chessBoard);

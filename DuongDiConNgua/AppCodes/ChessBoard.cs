@@ -30,6 +30,7 @@ namespace DuongDiConNgua.AppCodes
         public int ChessSquareSize { get; set; }
         #region event declaration
         public event ImageMovingEventHandler HorseMove;
+        public event EventHandler DrawingCompleted;
         #endregion
         public ChessBoard(int chessBoardSize)
         {
@@ -130,13 +131,12 @@ namespace DuongDiConNgua.AppCodes
             }
             else
             {
-                Application.DoEvents();
-                DrawTimer.Enabled = false;
                 if (!AlgRunning)
                 {
-                    MessageBox.Show("Kết cmn thúc!", "Done");
+                    DrawFinish();
+                    DrawTimer.Enabled = false;
+                    DrawTimer.Stop();
                 }
-                DrawTimer.Stop();
             }
         }
         #endregion
@@ -175,8 +175,16 @@ namespace DuongDiConNgua.AppCodes
         public void SetInterval(int interval)
         {
             Application.DoEvents();
+            this.DrawInterval = interval;
             this.AlgTimer.Interval = interval;
             this.DrawTimer.Interval = interval;
+        }
+        private void DrawFinish()
+        {
+            if (DrawingCompleted != null)
+            {
+                DrawingCompleted(this, new EventArgs());
+            }
         }
     }
 }
