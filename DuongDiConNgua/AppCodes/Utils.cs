@@ -80,6 +80,20 @@ namespace DuongDiConNgua.AppCodes
         {
             return point.X >= 0 && point.X < chessBoardSize && point.Y >= 0 && point.Y < chessBoardSize;
         }
+        public static bool HasUnReachedPoint(Point point)
+        {
+            for (int i = 0; i < ChessBoardSize; i++)
+            {
+                for (int j = 0; j < ChessBoardSize; j++)
+                {
+                    if (PathTrace[i, j] == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         static Utils()
         {
 

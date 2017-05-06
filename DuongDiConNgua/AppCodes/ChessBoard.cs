@@ -165,7 +165,7 @@ namespace DuongDiConNgua.AppCodes
         }
         private void Draw(ChessSquare p, int step)
         {
-          //  if (hamilton.Any())
+            //  if (hamilton.Any())
             {
                 Image img = null;
                 if (PreviousSquare != null)
@@ -206,36 +206,28 @@ namespace DuongDiConNgua.AppCodes
             Stack<Point> stack = new Stack<Point>();
             stack.Push(new Point(Utils.StartCell.ChessPoint.X, Utils.StartCell.ChessPoint.Y));
             hamilton.Add(Utils.StartCell.ChessPoint);
+            Point prev = Utils.StartCell.ChessPoint;
             AlgTimer.Tick += (obj, ev) =>
             {
                 if (stack.Any())
                 {
                     Point p = stack.Peek();
                     var adjencies = Utils.GetAdjencies(p, ChessBoardSize);
-                    bool hasPath = false;
                     foreach (var item in adjencies)
                     {
-                        if (!stack.Any(x => x.X == item.X && x.Y == item.Y))
+                        if (!prev.IsEquals(item))
                         {
                             stack.Push(item);
-                            hasPath = true;
                         }
                     }
-                    if (!hasPath)
+                    //
+                    hamilton.Add(p);
+                    Utils.PathTrace[p.X, p.Y] = true;
+                    Draw(ChessSquares[p.X, p.Y], ++CurrentStep);
+                    if (hamilton.Count == ChessBoardSize * ChessBoardSize)
                     {
                         hamilton.RemoveAt(hamilton.Count - 1);
                         stack.Pop();
-                    }
-                    //
-                    if (!p.IsEquals(Utils.StartCell.ChessPoint) && hasPath)
-                    {
-                        hamilton.Add(p);
-                        Draw(ChessSquares[p.X, p.Y], ++CurrentStep);
-                        if (hamilton.Count == ChessBoardSize * ChessBoardSize)
-                        {
-                            hamilton.RemoveAt(hamilton.Count - 1);
-                            stack.Pop();
-                        }
                     }
                 }
                 else
