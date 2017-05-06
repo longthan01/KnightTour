@@ -1,4 +1,5 @@
 ﻿using DuongDiConNgua.AppCodes;
+using DuongDiConNgua.AppCodes.Algorithm;
 using DuongDiConNgua.Properties;
 using System;
 using System.Collections.Generic;
@@ -40,16 +41,20 @@ namespace DuongDiConNgua
             //this.Controls.Add(HorseRunningAnimation);
             #endregion
             this.comboBox1.SelectedIndex = 4; // 500
+            this.cbxAlgorithm.SelectedIndex = 0;
             this.txtChessSquare.Text = 8.ToString();
             this._chessBoardSize = 8;
             this._drawDelayTime = 500;
             DrawChessBoard();
             this.btnReset.Click += (obj, ev) =>
             {
+                _chessBoard.AlgTimer.Stop();
                 if (_chessBoardSize != 0)
                 {
                     DrawChessBoard();
                 }
+                Utils.Initialize(_chessBoardSize);
+                Utils.IgnoredPoints.Clear();
             };
             this.comboBox1.SelectedIndexChanged += (obj, ev) =>
             {
@@ -82,12 +87,29 @@ namespace DuongDiConNgua
                     MessageBox.Show("Chọn 1 điểm bắt đầu !");
                     return;
                 }
-                _chessBoard.Knight();
+                switch (this.cbxAlgorithm.SelectedItem.ToString())
+                {
+                    case "NNA":
+                        _chessBoard.Algorithm = new HorseHeuristic(_chessBoardSize);
+                        _chessBoard.Knight();
+                        break;
+                    case "Backtracking":
+                        _chessBoard.Algorithm = new HorseBacktracking(_chessBoardSize);
+                        _chessBoard.KnightBacktracking();
+                        break;
+                }
             };
             this.button1.Click += (obj, ev) =>
             {
                 string help = System.IO.File.ReadAllText("help.txt");
                 MessageBox.Show(help, "Intruction");
+            };
+            this.btnPause.Click += (obj, ev) =>
+            {
+                if (_chessBoard != null && _chessBoard.AlgTimer != null)
+                {
+                    _chessBoard.AlgTimer.Enabled = !_chessBoard.AlgTimer.Enabled;
+                }
             };
         }
         private void DrawGameOver(string text)
@@ -114,7 +136,7 @@ namespace DuongDiConNgua
             DrawGameOver("");
             _chessBoard.DrawingCompleted += (obj, ev) =>
             {
-                DrawGameOver("Game O Cmn Ver");
+                DrawGameOver("Gêm Ô VƠ");
             };
             int marginRight = 50;
             _chessBoard.Location = new Point(this.Width - _chessBoard.DefaultChessBoardSize - marginRight, 0);
@@ -179,12 +201,5 @@ namespace DuongDiConNgua
             return dest.X - 4 <= x && dest.X + 4 >= x &&
                    dest.Y - 4 <= y && dest.Y + 4 >= y;
         }
-        //private void SmoothMove(Point from, Point to, Image img)
-        //{
-        //    Graphics g = this.CreateGraphics();
-        //    Pen pen = new Pen(Brushes.LightGreen);
-        //    pen.Width = 2;
-        //    g.DrawLine(pen, from, to);
-        //}
     }
 }

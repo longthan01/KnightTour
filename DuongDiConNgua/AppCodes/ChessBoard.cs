@@ -20,12 +20,12 @@ namespace DuongDiConNgua.AppCodes
         public int DrawInterval = 500;
 
         private int MarginRight = 10;
-        private Timer DrawTimer;
-        private Timer AlgTimer = new Timer();
+        public Timer DrawTimer;
+        public Timer AlgTimer = new Timer();
         private bool AlgRunning;
         private Queue<ChessSquare> Path = new Queue<ChessSquare>();
         private ChessSquare PreviousSquare = null;
-        private int CurrentStep = 1;
+        private int CurrentStep = 0;
 
         public int ChessSquareSize { get; set; }
         #region event declaration
@@ -103,15 +103,6 @@ namespace DuongDiConNgua.AppCodes
                         img = Resources.HorseRunningLeft;
                     }
                     PreviousSquare.ChangeImage(PreviousSquare.Img);
-                    //if (HorseMove != null)
-                    //{
-                    //    HorseMove(this, new ImageMovingEventArg()
-                    //    {
-                    //        From = PreviousSquare.PointToScreen(PreviousSquare.Location),
-                    //        To = p.PointToScreen(p.Location),
-                    //        Image = img
-                    //    });
-                    //}
                 }
                 else
                 {
@@ -170,6 +161,89 @@ namespace DuongDiConNgua.AppCodes
                         AlgTimer.Stop();
                     }
                 };
+            AlgTimer.Start();
+        }
+        private void Draw(ChessSquare p, int step)
+        {
+          //  if (hamilton.Any())
+            {
+                Image img = null;
+                if (PreviousSquare != null)
+                {
+                    if (p.ChessPoint.Y > PreviousSquare.ChessPoint.Y)
+                    {
+                        img = Resources.HorseRunningRight;
+                    }
+                    else
+                    {
+                        img = Resources.HorseRunningLeft;
+                    }
+                    PreviousSquare.ChangeImage(PreviousSquare.Img);
+                }
+                else
+                {
+                    if (Utils.StartCell.ChessPoint.Y > Utils.StartCell.ChessPoint.Y)
+                    {
+                        img = Resources.HorseRunningRight;
+                    }
+                    else
+                    {
+                        img = Resources.HorseRunningLeft;
+                    }
+                }
+                p.ChangeImage(img);
+                System.Threading.Thread.Sleep(10);
+                p.ChessSquareText.Text = step.ToString();
+                PreviousSquare = p;
+            }
+        }
+        private Stack<ChessSquare> TrackPath = new Stack<ChessSquare>();
+        List<Point> hamilton = new List<Point>();
+        public void KnightBacktracking()
+        {
+            AlgRunning = true;
+            AlgTimer.Interval = this.DrawInterval;
+            Stack<Point> stack = new Stack<Point>();
+            stack.Push(new Point(Utils.StartCell.ChessPoint.X, Utils.StartCell.ChessPoint.Y));
+            hamilton.Add(Utils.StartCell.ChessPoint);
+            AlgTimer.Tick += (obj, ev) =>
+            {
+                if (stack.Any())
+                {
+                    Point p = stack.Peek();
+                    var adjencies = Utils.GetAdjencies(p, ChessBoardSize);
+                    bool hasPath = false;
+                    foreach (var item in adjencies)
+                    {
+                        if (!stack.Any(x => x.X == item.X && x.Y == item.Y))
+                        {
+                            stack.Push(item);
+                            hasPath = true;
+                        }
+                    }
+                    if (!hasPath)
+                    {
+                        hamilton.RemoveAt(hamilton.Count - 1);
+                        stack.Pop();
+                    }
+                    //
+                    if (!p.IsEquals(Utils.StartCell.ChessPoint) && hasPath)
+                    {
+                        hamilton.Add(p);
+                        Draw(ChessSquares[p.X, p.Y], ++CurrentStep);
+                        if (hamilton.Count == ChessBoardSize * ChessBoardSize)
+                        {
+                            hamilton.RemoveAt(hamilton.Count - 1);
+                            stack.Pop();
+                        }
+                    }
+                }
+                else
+                {
+                    AlgTimer.Enabled = false;
+                    return;
+                }
+            };
             AlgTimer.Start();
         }
         public void SetInterval(int interval)
