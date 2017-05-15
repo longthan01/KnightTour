@@ -42,20 +42,20 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(12, 12);
-            this.btnRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRun.Location = new System.Drawing.Point(9, 10);
+            this.btnRun.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 38);
+            this.btnRun.Size = new System.Drawing.Size(56, 31);
             this.btnRun.TabIndex = 0;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(12, 57);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnReset.Location = new System.Drawing.Point(9, 46);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 38);
+            this.btnReset.Size = new System.Drawing.Size(56, 31);
             this.btnReset.TabIndex = 1;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -63,20 +63,18 @@
             // txtChessSquare
             // 
             this.txtChessSquare.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtChessSquare.Location = new System.Drawing.Point(108, 12);
-            this.txtChessSquare.Margin = new System.Windows.Forms.Padding(4);
+            this.txtChessSquare.Location = new System.Drawing.Point(81, 10);
             this.txtChessSquare.Name = "txtChessSquare";
-            this.txtChessSquare.Size = new System.Drawing.Size(132, 34);
+            this.txtChessSquare.Size = new System.Drawing.Size(100, 29);
             this.txtChessSquare.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label1.Location = new System.Drawing.Point(249, 12);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(187, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(192, 28);
+            this.label1.Size = new System.Drawing.Size(144, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "Chess squares";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -85,20 +83,19 @@
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label2.Location = new System.Drawing.Point(249, 59);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(187, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(192, 28);
+            this.label2.Size = new System.Drawing.Size(144, 23);
             this.label2.TabIndex = 5;
             this.label2.Text = "Delay time";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 151);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Location = new System.Drawing.Point(9, 123);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 38);
+            this.button1.Size = new System.Drawing.Size(56, 31);
             this.button1.TabIndex = 6;
             this.button1.Text = "Help";
             this.button1.UseVisualStyleBackColor = true;
@@ -116,10 +113,9 @@
             "500",
             "1000",
             "1500"});
-            this.comboBox1.Location = new System.Drawing.Point(108, 55);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox1.Location = new System.Drawing.Point(81, 45);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(132, 37);
+            this.comboBox1.Size = new System.Drawing.Size(100, 32);
             this.comboBox1.TabIndex = 7;
             // 
             // cbxAlgorithm
@@ -128,42 +124,39 @@
             this.cbxAlgorithm.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxAlgorithm.FormattingEnabled = true;
             this.cbxAlgorithm.Items.AddRange(new object[] {
-            "NNA",
-            "Backtracking"});
-            this.cbxAlgorithm.Location = new System.Drawing.Point(108, 101);
-            this.cbxAlgorithm.Margin = new System.Windows.Forms.Padding(4);
+            "NNA"});
+            this.cbxAlgorithm.Location = new System.Drawing.Point(81, 82);
             this.cbxAlgorithm.Name = "cbxAlgorithm";
-            this.cbxAlgorithm.Size = new System.Drawing.Size(132, 37);
+            this.cbxAlgorithm.Size = new System.Drawing.Size(100, 32);
             this.cbxAlgorithm.TabIndex = 8;
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label3.Location = new System.Drawing.Point(248, 104);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(186, 84);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(192, 28);
+            this.label3.Size = new System.Drawing.Size(144, 23);
             this.label3.TabIndex = 9;
             this.label3.Text = "Algorithm";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(12, 104);
-            this.btnPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnPause.Location = new System.Drawing.Point(9, 84);
+            this.btnPause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(75, 38);
+            this.btnPause.Size = new System.Drawing.Size(56, 31);
             this.btnPause.TabIndex = 10;
             this.btnPause.Text = "Pause";
             this.btnPause.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1203, 606);
+            this.ClientSize = new System.Drawing.Size(902, 492);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbxAlgorithm);
@@ -174,7 +167,6 @@
             this.Controls.Add(this.txtChessSquare);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnRun);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

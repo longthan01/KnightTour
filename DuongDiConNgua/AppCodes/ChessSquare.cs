@@ -40,7 +40,7 @@ namespace DuongDiConNgua.AppCodes
             int lblX = 0;
             int lblY = (SquareSize) / 4;
             ChessSquareText.Location = new Point(lblX, lblY);
-            int lblFontSize = (SquareSize * 30) / 100;
+            int lblFontSize = (SquareSize * 15) / 100; // 30%
             ChessSquareText.Font = new Font("Arial", lblFontSize, FontStyle.Bold);
             ChessSquareText.BackColor = Color.Transparent;
             ChessSquareText.ForeColor = Color.Red;

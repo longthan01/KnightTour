@@ -117,7 +117,7 @@ namespace DuongDiConNgua.AppCodes
                 }
                 p.ChangeImage(img);
                 System.Threading.Thread.Sleep(10);
-                p.ChessSquareText.Text = (CurrentStep++).ToString();
+                p.ChessSquareText.Text = (++CurrentStep).ToString();
                 PreviousSquare = p;
             }
             else
@@ -197,46 +197,89 @@ namespace DuongDiConNgua.AppCodes
                 PreviousSquare = p;
             }
         }
-        private Stack<ChessSquare> TrackPath = new Stack<ChessSquare>();
-        List<Point> hamilton = new List<Point>();
+
         public void KnightBacktracking()
         {
-            AlgRunning = true;
-            AlgTimer.Interval = this.DrawInterval;
-            Stack<Point> stack = new Stack<Point>();
-            stack.Push(new Point(Utils.StartCell.ChessPoint.X, Utils.StartCell.ChessPoint.Y));
-            hamilton.Add(Utils.StartCell.ChessPoint);
-            Point prev = Utils.StartCell.ChessPoint;
-            AlgTimer.Tick += (obj, ev) =>
+            List<ChessSquare> hamilton = new List<ChessSquare>();
+            bool[,] pathTrace = new bool[ChessBoardSize, ChessBoardSize];
+            for (int i = 0; i < ChessBoardSize; i++)
             {
-                if (stack.Any())
+                for (int j = 0; j < ChessBoardSize; j++)
                 {
-                    Point p = stack.Peek();
-                    var adjencies = Utils.GetAdjencies(p, ChessBoardSize);
-                    foreach (var item in adjencies)
-                    {
-                        if (!prev.IsEquals(item))
-                        {
-                            stack.Push(item);
-                        }
-                    }
-                    //
-                    hamilton.Add(p);
-                    Utils.PathTrace[p.X, p.Y] = true;
-                    Draw(ChessSquares[p.X, p.Y], ++CurrentStep);
-                    if (hamilton.Count == ChessBoardSize * ChessBoardSize)
-                    {
-                        hamilton.RemoveAt(hamilton.Count - 1);
-                        stack.Pop();
-                    }
+                    pathTrace[i, j] = false;
+                }
+            }
+            KnightBacktracking(Utils.StartCell.ChessPoint, hamilton, pathTrace);
+            hamilton.RemoveAt(0);
+            DrawTimer = new Timer();
+            DrawTimer.Interval = DrawInterval;
+            DrawTimer.Tick += (obj, ev) =>
+            {
+                if (hamilton.Any())
+                {
+                    ChessSquare square = hamilton.ElementAt(0);
+                    Draw(square, ++CurrentStep);
+                    hamilton.RemoveAt(0);
+                    System.Diagnostics.Debug.WriteLine($"{square.ChessPoint.X} , {square.ChessPoint.Y}");
                 }
                 else
                 {
-                    AlgTimer.Enabled = false;
-                    return;
+                    DrawTimer.Enabled = false;
+                    DrawTimer.Stop();
+                    DrawFinish();
                 }
             };
-            AlgTimer.Start();
+            DrawTimer.Start();
+        }
+        int step = 0;
+        bool stop = false;
+        public void KnightBacktracking(Point start, List<ChessSquare> hamilton, bool[,] pathTrace)
+        {
+            if (stop)
+            {
+                return;
+            }
+            step++;
+            System.Diagnostics.Debug.WriteLine($"step: {step}");
+            hamilton.Add(ChessSquares[start.X, start.Y]);
+            pathTrace[start.X, start.Y] = true;
+            var adjencies = Utils.GetAdjencies(start, ChessBoardSize);
+            foreach (var item in adjencies)
+            {
+                if (!pathTrace[item.X, item.Y])
+                {
+                    KnightBacktracking(item, hamilton, pathTrace);
+                }
+            }
+            if (!HasUnReachedPoint(pathTrace))
+            {
+                stop = true;
+                return;
+            }
+            if (hamilton.Count == 1)
+            {
+                return;
+            }
+            else
+            {
+                pathTrace[start.X, start.Y] = false;
+                hamilton.RemoveAt(hamilton.Count - 1);
+            }
+
+        }
+        public bool HasUnReachedPoint(bool[,] pathTrace)
+        {
+            for (int i = 0; i < ChessBoardSize; i++)
+            {
+                for (int j = 0; j < ChessBoardSize; j++)
+                {
+                    if (pathTrace[i, j] == false)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         public void SetInterval(int interval)
         {
